@@ -13,15 +13,46 @@ app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
 app.use(cookieParser());
 
+
 //============================
 //        MODELS
 //============================
 const { User } = require('./models/user');
+const { Brand } = require('./models/brand');
+
 
 //============================
 //       MIDDLEWARES
 //============================
 const { auth } = require('./middleware/auth');
+const { admin } = require('./middleware/admin');
+
+
+//============================
+//        BRANDS
+//============================
+
+// Create Brands
+app.post('/api/product/brand', auth, admin, (req, res) => {
+    const brand = new Brand(req.body);
+    brand.save((err, doc) => {
+        if(err) return res.json({success: false, err});
+        res.status(200).json({
+            success: true,
+            brand: doc
+        });
+    });
+});
+
+// Find brands
+app.get('/api/product/brands', (req, res) => {
+    Brand.find({}, (err, brands) => {
+        if(err) return escape.status(400).send(err);
+        res.status(200).send(brands);
+    });
+});
+
+
 
 //============================
 //        USERS
@@ -45,7 +76,7 @@ app.get('/api/users/auth', auth, (req, res) => {
 // Register user
 app.post('/api/users/register', (req, res) => {
     
-    const user = new  User(req.body);
+    const user = new User(req.body);
 
     user.save((err, doc) => {
         if(err)  return res.json({success:false,err});
