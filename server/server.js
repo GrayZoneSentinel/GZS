@@ -19,8 +19,30 @@ app.use(cookieParser());
 const { User } = require('./models/user');
 
 //============================
+//       MIDDLEWARES
+//============================
+const { auth } = require('./middleware/auth');
+
+//============================
 //        USERS
 //============================
+
+// Auth user
+app.get('/api/users/auth', auth, (req, res) => {
+     res.status(200).json({
+        //  user: req.user
+        isAdmin: req.user.role === 0 ? false : true,
+        isAuth: true,
+        email: req.user.email,
+        name: req.user.name,
+        lastname: req.user.lastname,
+        role: req.user.role,
+        cart: req.user.cart,
+        history: req.user.history
+     })
+});
+
+// Register user
 app.post('/api/users/register', (req, res) => {
     
     const user = new  User(req.body);
