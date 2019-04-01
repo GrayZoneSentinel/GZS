@@ -64,6 +64,25 @@ app.get('/api/product/articles_by_id', (req, res) => {
         return res.status(200).send(docs)
     })
 });
+// Get products by arrival (createdAt) --> /articles?sortBy=createdAt&order=desc&limit=4
+// Get products by sale (sold) --> /articles?sortBy=sold&order=desc&limit=100
+app.get('/api/product/articles', (req, res) => {
+    let order = req.query.order ? req.query.order : 'asc';
+    let sortBy = req.query.sortBy ? req.query.sortBy : "_id";
+    let limit = req.query.limit ? parseInt(req.query.limit) : 100;
+
+    Product
+    .find()
+    .populate('brand')
+    .populate('wood')
+    .sort([[sortBy, order]])
+    .limit(limit)
+    .exec((err, articles) => {
+        if(err) return res.status(400).send(err);
+        res.send(articles)
+    })
+
+});
 
 
 //============================
