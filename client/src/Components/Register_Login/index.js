@@ -1,6 +1,9 @@
 import React from 'react';
-
+// Custom button
 import MyButton from '../Utils/button';
+// Reference to login component
+import Login from './login';
+
 
 const RegisterLogin = () => {
     return (
@@ -23,7 +26,7 @@ const RegisterLogin = () => {
                         <div className="right">
                             <h2>Acceso usuarios registrados</h2>
                             <p>Todas estas borrascas que nos suceden son señales de que presto ha de serenar el tiempo y han de sucedernos bien las cosas; porque no es posible que el mal ni el bien sean durables, y de aquí se sigue que, habiendo durado mucho el mal, el bien está ya cerca. Así que, no debes congojarte por las desgracias que a mí me suceden, pues a ti no te cabe</p>
-                            LOGIN
+                            <Login/>
                         </div>
                     </div>
                 </div>
