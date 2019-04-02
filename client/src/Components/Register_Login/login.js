@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Formfield from '../Utils/Form/formfield';
 import { connect } from 'react-redux';
 // Reference to the update function set in formActions
-import { update } from '../Utils/Form/formActions';
+import { update, generateData, isFormValid } from '../Utils/Form/formActions';
 
 class Login extends Component {
 
@@ -44,7 +44,6 @@ class Login extends Component {
         }
     }
 
-
     updateForm = (element) => {
         const newFormdata = update(element, this.state.formdata, 'login');
         // Get the new state set and sent back from the formActions
@@ -54,8 +53,19 @@ class Login extends Component {
         })
     }
 
-    submitForm = () => {
-
+    submitForm = (event) => {
+        event.preventDefault();
+        // Check if the formdata is valid and has the appropriate key-value pairs required in state
+        let dataToSubmit = generateData(this.state.formdata, 'login');
+        let formIsValid = isFormValid(this.state.formdata, 'login');
+        
+        if(formIsValid) {
+            console.log(dataToSubmit)
+        } else {
+            this.setState({
+                formError: true
+            })
+        }
     }
 
     render() {
@@ -72,6 +82,19 @@ class Login extends Component {
                         formdata={this.state.formdata.password}
                         change={(element) => this.updateForm(element)}
                     />
+                    {/* Check the validation */}
+                    {
+                        this.state.formError 
+                            ?
+                                <div className="error_label">
+                                    Incorrecto; por favor, revisa los datos introducidos.
+                                </div>
+                            :
+                                null
+                    }
+                    {/* Incorporate the sending button */}
+                    <button onClick={(event) => this.submitForm(event)}>Acceder</button>
+
                 </form>
             </div>
         )

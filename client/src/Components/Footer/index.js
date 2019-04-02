@@ -65,7 +65,7 @@ class Footer extends Component {
                             </div>
                         </div>
                         <div className="right">
-                            <h2>Sígue la pista</h2>
+                            <h2>Síguenos la pista</h2>
                             <div>
                                 <div>
                                     Queremos formar parte de tus redes sociales; a cambio, entérate de las últimas novedades y no te pierdas nada interesante.
