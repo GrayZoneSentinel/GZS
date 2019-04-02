@@ -110,7 +110,6 @@ class Login extends Component {
                     }
                     {/* Incorporate the sending button */}
                     <button onClick={(event) => this.submitForm(event)}>Acceder</button>
-
                 </form>
             </div>
         )

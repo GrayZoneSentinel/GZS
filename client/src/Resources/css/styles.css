@@ -165,9 +165,9 @@ select {
 }
 
 .form_block_two .block:nth-child(1) {
-    padding-right:10px;
+    padding-right: 5px;
 }
-.form_block_two .block:nth-child(2) {
+.form_block_two .block:nth-child(3) {
     padding-left:10px;
 }
 
