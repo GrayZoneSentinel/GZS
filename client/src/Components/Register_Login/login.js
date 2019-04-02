@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import Formfield from '../Utils/Form/formfield';
 import { connect } from 'react-redux';
+// Reference to the update function set in formActions
+import { update } from '../Utils/Form/formActions';
 
 class Login extends Component {
 
@@ -24,27 +26,32 @@ class Login extends Component {
                 touched: false,
                 validationMessage: ''
             },
-            // password: {
-            //     element: 'input',
-            //     value: '',
-            //     config: {
-            //         name: 'password_input',
-            //         type: 'password',
-            //         placeholder: 'Clave de acceso'
-            //     },
-            //     validation: {
-            //         required: true
-            //     },
-            //     valid: false,
-            //     touched: false,
-            //     validationMessage: ''
-            // }
+            password: {
+                element: 'input',
+                value: '',
+                config: {
+                    name: 'password_input',
+                    type: 'password',
+                    placeholder: 'Clave de acceso'
+                },
+                validation: {
+                    required: true
+                },
+                valid: false,
+                touched: false,
+                validationMessage: ''
+            }
         }
     }
 
 
-    updateForm = () => {
-
+    updateForm = (element) => {
+        const newFormdata = update(element, this.state.formdata, 'login');
+        // Get the new state set and sent back from the formActions
+        this.setState({
+            formError: false,
+            formdata: newFormdata
+        })
     }
 
     submitForm = () => {
@@ -60,11 +67,11 @@ class Login extends Component {
                         formdata={this.state.formdata.email}
                         change={(element) => this.updateForm(element)}
                     />
-                    {/* <Formfield
+                    <Formfield
                         id={'password'}
                         formdata={this.state.formdata.password}
                         change={(element) => this.updateForm(element)}
-                    /> */}
+                    />
                 </form>
             </div>
         )
