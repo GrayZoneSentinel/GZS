@@ -3,6 +3,10 @@ import Formfield from '../Utils/Form/formfield';
 import { connect } from 'react-redux';
 // Reference to the update function set in formActions
 import { update, generateData, isFormValid } from '../Utils/Form/formActions';
+// Callback from actions: userActions: registered user
+import { loginUser } from '../../Actions/user_actions';
+// to get the props from the other routes
+import { withRouter } from 'react-router-dom';
 
 class Login extends Component {
 
@@ -60,7 +64,19 @@ class Login extends Component {
         let formIsValid = isFormValid(this.state.formdata, 'login');
         
         if(formIsValid) {
-            console.log(dataToSubmit)
+            // Callback from actions: userActions: loginUser: give access to a registered user
+            this.props.dispatch(loginUser(dataToSubmit))
+            .then(response => {
+                if(response.payload.loginSuccess){
+                    this.props.history.push('/user/dashboard')
+                    // console.log(response.payload)
+                } else {
+                    this.setState({
+                        formError: true
+                    })
+                }
+            });
+            // console.log(dataToSubmit)
         } else {
             this.setState({
                 formError: true
@@ -101,4 +117,5 @@ class Login extends Component {
     }
 }
 
-export default connect()(Login);
+// to get the props from the other routes
+export default connect()(withRouter(Login));

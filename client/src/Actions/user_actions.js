@@ -1,3 +1,16 @@
 import axios from 'axios';
+
+import { LOGIN_USER } from './types';
+
 import { USER_SERVER } from '../Components/Utils/misc';
 
+export function loginUser(dataToSubmit) {
+    const request = axios.post(`${USER_SERVER}/login`, dataToSubmit)
+    .then(response => response.data);
+
+    return {
+        // Create the type in Actions/types.js
+        type: LOGIN_USER,
+        payload: request
+    }
+}
