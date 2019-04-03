@@ -8,7 +8,7 @@ const UserDashboard = () => {
         <UserLayout>
             <div>
                 <div className="user_nfo_panel">
-                    <h1>Información de mi cuenta</h1>
+                    <h1>Datos personales</h1>
                     <div>
                         <span>Nombre</span>
                         <span>Apellidos</span>
