@@ -167,8 +167,12 @@ select {
 .form_block_two .block:nth-child(1) {
     padding-right: 5px;
 }
+.form_block_two .block:nth-child(2) {
+    padding-right: 5px;
+    padding-left: 5px;
+}
 .form_block_two .block:nth-child(3) {
-    padding-left:10px;
+    padding-left:5px;
 }
 
 .form_success {

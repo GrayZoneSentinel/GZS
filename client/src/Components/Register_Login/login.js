@@ -71,16 +71,12 @@ class Login extends Component {
                     this.props.history.push('/user/dashboard')
                     // console.log(response.payload)
                 } else {
-                    this.setState({
-                        formError: true
-                    })
+                    this.setState({ formError: true })
                 }
             });
             // console.log(dataToSubmit)
         } else {
-            this.setState({
-                formError: true
-            })
+            this.setState({ formError: true })
         }
     }
 
