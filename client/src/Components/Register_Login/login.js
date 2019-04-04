@@ -69,7 +69,7 @@ class Login extends Component {
             .then(response => {
                 if(response.payload.loginSuccess){
                     this.props.history.push('/user/dashboard')
-                    // console.log(response.payload)
+                    console.log(response.payload)
                 } else {
                     this.setState({ formError: true })
                 }
