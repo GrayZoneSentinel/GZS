@@ -3,6 +3,10 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 // Links section depending on the state of auth: import redux availability to get server access to know whether the user is login
 import { connect } from 'react-redux';
+// LogoutHandler link function
+import { logoutUser } from '../../Actions/user_actions';
+// Bring the routing props from other routes
+import { withRouter } from 'react-router-dom';
 
 
 class Header extends Component {
@@ -45,13 +49,22 @@ class Header extends Component {
         ]
     }
 
+    // LogoutHandler link function
+    logoutHandler = () => {
+        this.props.dispatch(logoutUser()).then(response =>{
+            if(response.payload.success){
+                this.props.history.push('/');
+            }
+        })
+    }
+
     // Links section depending on the state of auth: depending on the cart or other variables
     cartLink = (item, i) => {
         const user = this.props.user.userData;
         return(
             <div className="cart_link" key={i}>
-                <span className="cart_link">{user.cart ? user.cart.lenght:0}</span>
-                <Link to={item.linkTo} key={i}>
+                <span>{ user.cart ? user.cart.length : 0}</span>
+                <Link to={item.linkTo}>
                     {item.name}
                 </Link>
             </div>
@@ -59,9 +72,18 @@ class Header extends Component {
     }
 
     defaultLink = (item, i) => (
-            <Link to={item.linkTo} key={i}>
-                {item.name}
-            </Link>
+        item.name === 'Salir' 
+            ?
+                <div className="log_out_link"
+                    key={i}
+                    onClick={() => this.logoutHandler()}
+                >
+                    {item.name}
+                </div>
+            :
+                <Link to={item.linkTo} key={i}>
+                    {item.name}
+                </Link>
     )
 
     // Links section depending on the state of auth: function to determine the different types of links
@@ -123,4 +145,4 @@ function mapStateToProps(state){
 }
 
 // Links section depending on the state of auth: make Redux available
-export default connect(mapStateToProps)(Header);
+export default connect(mapStateToProps)(withRouter(Header));
