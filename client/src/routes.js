@@ -5,7 +5,7 @@ import Layout from './hoc/layout';
 // Auth filtering
 import Auth from './hoc/auth';
 // Components
-import Home from './Components/index';
+import Home from './Components/Home';
 import RegisterLogin from './Components/Register_Login';
 import Register from './Components/Register_Login/register';
 
