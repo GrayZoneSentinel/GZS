@@ -6,16 +6,17 @@ import faAngleUp from '@fortawesome/fontawesome-free-solid/faAngleUp';
 // import the List checkboxes from Material-UI
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
-import Checkbox from '@material-ui/core/Checkbox';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
 import Collapse from '@material-ui/core/Collapse';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 
-class CollapseCheckbox extends Component {
+class CollapseRadio extends Component {
 
     state = {
         open: false,
-        checked: []
+        value: '0'
     }
 
     // The props got from the index file of Shop component
@@ -46,48 +47,33 @@ class CollapseCheckbox extends Component {
                     className = "icon"
                 />
     )
-    // Deploy the elements comprised within the relevant list
+
     renderList = () => (
-        this.props.list 
+        this.props.list
             ?
-                this.props.list.map((value) =>(
-                    <ListItem key={value._id} style={{ padding: '10px 0' }}>
-                        <ListItemText primary={value.name}/>
-                        <ListItemSecondaryAction>
-                            <Checkbox
-                                color="primary"
-                                // onChange={() => console.log('hey')}
-                                onChange={this.handleToggle(value._id)}
-                                checked={this.state.checked.indexOf(value._id) !== -1}
-                            />
-                        </ListItemSecondaryAction>
-                    </ListItem>
+                this.props.list.map(value => (
+                    <FormControlLabel
+                        key = {value._id}
+                        value = {`${value._id}`}
+                        control = {<Radio/>}
+                        label = {value.name}
+                    />
                 ))
             :
                 null
     )
 
-    handleToggle = value => () => {
-        const { checked } = this.state;
-        const currentIndex = checked.indexOf(value);
-        const newChecked = [...checked];
-
-        if(currentIndex === -1) {
-            newChecked.push(value)
-        } else {
-            newChecked.splice(currentIndex, 1)
-        }
-
+    // Handle change of value
+    handleChange = event => {
+        this.props.handleFilters(event.target.value);
         this.setState({
-            checked: newChecked
-        }, () => {
-            this.props.handleFilters(newChecked)
+            value: event.target.value
         })
     }
 
     render(){
         return(
-            <div className="collapse_items_wrapper">
+            <div>
                 <List style={{borderBottom: '1px solid #dbdbdb'}}>
                     <ListItem onClick={this.handleClick} style={{padding: '10px 23px 10px 0'}}>
                         <ListItemText
@@ -98,13 +84,20 @@ class CollapseCheckbox extends Component {
                     </ListItem>
                     <Collapse in={this.state.open} timeout="auto" unmountOnExit>
                         <List component="div" disablePadding>
-                            {this.renderList()}
+                            <RadioGroup
+                                aria-label="prices"
+                                name="prices"
+                                value={this.state.value}
+                                onChange={this.handleChange}
+                            >
+                                {this.renderList()}
+                            </RadioGroup>
                         </List>
                     </Collapse>
-                </List>
+                </List>   
             </div>
         )
-    }
+    } 
 }
 
-export default CollapseCheckbox;
+export default CollapseRadio;

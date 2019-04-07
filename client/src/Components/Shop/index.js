@@ -5,10 +5,11 @@ import PageTop from '../Utils/page_top';
 import { connect } from 'react-redux';
 // import get the products: create in product_actions file
 import { getBrands, getWoods } from '../../Actions/product_actions';
-// the leftside collapsing checkboxes
+// the leftside collapsing checkboxes & radios
 import CollapseCheckbox from '../Utils/collapseCheckbox';
+import CollapseRadio from '../Utils/collapseRadio';
 // Fixed categories
-import { frets } from '../Utils/Form/fixed_categories';
+import { frets, price } from '../Utils/Form/fixed_categories';
 
 
 class Shop extends Component {
@@ -31,11 +32,30 @@ class Shop extends Component {
         this.props.dispatch(getBrands());
         this.props.dispatch(getWoods());
     }
+
+    // Handle price filter
+    handlePrice = (value) => {
+        const data = price;
+        let array = [];
+        for(let key in data){
+            if(data[key]._id === parseInt(value,10)){
+                array = data[key].array
+            }
+        }
+        return array;
+    }
+
     // handleFilters functionality from the CollapseCheckbox
     handleFilters = (filters, category) => {
         // console.log(filters);
         const newFilters = {...this.state.filters};
         newFilters[category] = filters;
+
+        // Handle the filtered price
+        if(category === "price") {
+            let priceValues = this.handlePrice(filters);
+            newFilters[category] = priceValues
+        }
 
         this.setState({
             filters: newFilters
@@ -72,6 +92,12 @@ class Shop extends Component {
                                 title = "Frets"
                                 list = {frets}
                                 handleFilters = {(filters) => this.handleFilters(filters, 'fret')}
+                            />
+                            <CollapseRadio
+                                initState = {true}
+                                title = "Price"
+                                list = {price}
+                                handleFilters = {(filters) => this.handleFilters(filters, 'price')}
                             />
                         </div>
                         <div className = "right">
