@@ -1,6 +1,12 @@
 import axios from 'axios';
 
-import { GET_PRODUCTS_BY_SELL, GET_PRODUCTS_BY_ARRIVAL, GET_BRANDS, GET_WOODS } from './types';
+import { 
+    GET_PRODUCTS_BY_SELL, 
+    GET_PRODUCTS_BY_ARRIVAL, 
+    GET_BRANDS, 
+    GET_WOODS,
+    GET_PRODUCTS_TO_SHOP
+} from './types';
 
 import { PRODUCT_SERVER } from '../Components/Utils/misc';
 
@@ -24,6 +30,29 @@ export function getProductsByArrival(){
 
     return{
         type: GET_PRODUCTS_BY_ARRIVAL,
+        payload: request
+    }
+}
+
+// ===================================
+//        Get products to Shop
+// ===================================
+export function getProductsToShop(skip, limit, filters=[], previousState=[]){
+    const data = {
+        skip,
+        limit,
+        filters
+    }
+    const request = axios
+    .post(`${PRODUCT_SERVER}/shop`, data)
+    .then(response => {
+        return{
+            size: response.data.size,
+            articles: response.data.articles
+        }
+    });
+    return{
+        type: GET_PRODUCTS_TO_SHOP,
         payload: request
     }
 }

@@ -4,7 +4,7 @@ import PageTop from '../Utils/page_top';
 // import connection to redux to get the props of the PageTop
 import { connect } from 'react-redux';
 // import get the products: create in product_actions file
-import { getBrands, getWoods } from '../../Actions/product_actions';
+import { getBrands, getWoods, getProductsToShop } from '../../Actions/product_actions';
 // the leftside collapsing checkboxes & radios
 import CollapseCheckbox from '../Utils/collapseCheckbox';
 import CollapseRadio from '../Utils/collapseRadio';
@@ -31,6 +31,12 @@ class Shop extends Component {
     componentDidMount() {
         this.props.dispatch(getBrands());
         this.props.dispatch(getWoods());
+        // Products to Shop
+        this.props.dispatch(getProductsToShop(
+            this.state.skip,
+            this.state.limit,
+            this.state.filters
+        ));
     }
 
     // Handle price filter
