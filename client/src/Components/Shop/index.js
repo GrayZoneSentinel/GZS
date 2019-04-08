@@ -10,6 +10,8 @@ import CollapseCheckbox from '../Utils/collapseCheckbox';
 import CollapseRadio from '../Utils/collapseRadio';
 // Fixed categories
 import { frets, price } from '../Utils/Form/fixed_categories';
+// LoadmoreCards button 
+import LoadmoreCards from './loadmoreCards';
 
 
 class Shop extends Component {
@@ -125,7 +127,20 @@ class Shop extends Component {
                             />
                         </div>
                         <div className = "right">
-                            Right
+                            <div className="shop_options">
+                                <div className="shop_grids clear">
+                                    GRIDS
+                                </div>
+                            </div>
+                            <div>
+                                <LoadmoreCards
+                                    grid = {this.state.grid}
+                                    limit = {this.state.limit}
+                                    size = {products.toShopSize}
+                                    products = {products.toShop}
+                                    loadMore = {() => console.log('Load more')}
+                                />
+                            </div>
                         </div>
                     </div>
                 </div>
