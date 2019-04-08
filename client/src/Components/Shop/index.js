@@ -63,13 +63,31 @@ class Shop extends Component {
             newFilters[category] = priceValues
         }
 
+        // Handle results deriving from the applied filters
+        this.showFilteredResults(newFilters)
+
         this.setState({
             filters: newFilters
         })
     }
 
+    // Handle results deriving from the applied filters
+    showFilteredResults  = (filters) => {
+        this.props.dispatch(getProductsToShop(
+            0,
+            this.state.limit,
+            filters
+        ))
+        .then(() => {
+            this.setState({
+                skip: 0
+            })
+        })
+    }
+
     render(){
         // import connection to redux to get the props of the PageTop
+        // console.log(this.state.filters);
         const products = this.props.products;
 
         return(
