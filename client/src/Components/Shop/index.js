@@ -12,6 +12,10 @@ import CollapseRadio from '../Utils/collapseRadio';
 import { frets, price } from '../Utils/Form/fixed_categories';
 // LoadmoreCards button 
 import LoadmoreCards from './loadmoreCards';
+// FaIcons from FontAwesome
+import FontAwesomeIcon from '@fortawesome/react-fontawesome';
+import faBars from '@fortawesome/fontawesome-free-solid/faBars';
+import faTh from '@fortawesome/fontawesome-free-solid/faTh';
 
 
 class Shop extends Component {
@@ -103,6 +107,13 @@ class Shop extends Component {
         })
     }
 
+    // Handle the grid style selection
+    handleGrid = () => {
+        this.setState({
+            grid: !this.state.grid ? 'grid_bars' : ''
+        })
+    }
+
     render(){
         // import connection to redux to get the props of the PageTop
         // console.log(this.state.filters);
@@ -145,7 +156,18 @@ class Shop extends Component {
                         <div className = "right">
                             <div className="shop_options">
                                 <div className="shop_grids clear">
-                                    GRIDS
+                                    <div
+                                        className ={`grid_btn ${this.state.grid ? '' : 'active'}`} 
+                                        onClick = {() => this.handleGrid()}
+                                    >
+                                        <FontAwesomeIcon icon = {faTh} />
+                                    </div>
+                                    <div
+                                        className ={`grid_btn ${!this.state.grid ? '' : 'active'}`} 
+                                        onClick = {() => this.handleGrid()}
+                                    >
+                                        <FontAwesomeIcon icon = {faBars} />
+                                    </div>
                                 </div>
                             </div>
                             <div>
