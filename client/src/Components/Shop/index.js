@@ -87,6 +87,22 @@ class Shop extends Component {
         })
     }
 
+    // Load more cards function button funtionality
+    loadMoreCards = () => {
+        let skip = this.state.skip + this.state.limit;
+        this.props.dispatch(getProductsToShop(
+            skip,
+            this.state.limit,
+            this.state.filters,
+            this.props.products.toShop
+        ))
+        .then(() => {
+            this.setState({
+                skip
+            })
+        })
+    }
+
     render(){
         // import connection to redux to get the props of the PageTop
         // console.log(this.state.filters);
@@ -138,7 +154,7 @@ class Shop extends Component {
                                     limit = {this.state.limit}
                                     size = {products.toShopSize}
                                     products = {products.toShop}
-                                    loadMore = {() => console.log('Load more')}
+                                    loadMore = {() => this.loadMoreCards()}
                                 />
                             </div>
                         </div>

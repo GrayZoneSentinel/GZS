@@ -12,6 +12,18 @@ const LoadmoreCards = (props) => {
                     list = {props.products}
                 />
             </div>
+            {/* Load more button appears if there are products to show; conversely the button disappears */}
+            {
+                props.size > 0 && props.size >= props.limit
+                    ?
+                        <div className="load_more_container">
+                            <span onClick={() => props.loadMore()}>
+                                Load more
+                            </span>
+                        </div> 
+                    :
+                        null
+            }      
         </div>
     );
 };
