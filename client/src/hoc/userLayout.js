@@ -1,24 +1,40 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 //Create the Links array
 const links = [
     {
         name: 'Mi cuenta',
-        linkTo: 'user/dashboard'
+        linkTo: '/user/dashboard'
     },
     {
         name: 'Info usuario',
-        linkTo: 'user/user_profile'
+        linkTo: '/user/user_profile'
     },
     {
         name: 'Carrito',
-        linkTo: 'user/cart'
+        linkTo: '/user/cart'
     },
 ]
 
-const UserLayout = (props) => {
+// Create the Admin links
+const adminLinks = [
+    {
+        name: 'Site info',
+        linkTo: '/admin/site_info'
+    },
+    {
+        name: 'Añadir producto',
+        linkTo: '/admin/add_products'
+    },
+    {
+        name: 'Gestionar categorías',
+        linkTo: '/admin/manage_categories'
+    }
+]
 
+const UserLayout = (props) => {
     // Function to deploy the links contained within the const links array
     const generateLinks = (links) => (
         links.map((item, i) => (
@@ -37,6 +53,18 @@ const UserLayout = (props) => {
                     <div className="links">
                         { generateLinks(links) } 
                     </div>
+                    {
+                        props.user.userData.isAdmin
+                            ?
+                                <div>
+                                    <h2>Admin</h2>
+                                    <div className = "links">
+                                        { generateLinks(adminLinks) }
+                                    </div>
+                                </div>
+                            :
+                                null
+                    }
                 </div>
                 <div className="user_right">
                     {props.children}
@@ -46,4 +74,11 @@ const UserLayout = (props) => {
     );
 };
 
-export default UserLayout;
+// Get the auth state
+const mapStateToProps = (state) => {
+    return{
+        user: state.user
+    }
+}
+
+export default connect(mapStateToProps)(UserLayout);
