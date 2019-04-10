@@ -9,9 +9,9 @@ import Home from './Components/Home';
 import Shop from './Components/Shop';
 import RegisterLogin from './Components/Register_Login';
 import Register from './Components/Register_Login/register';
-import AddProduct from './Components/User/Admin/add_products';
 
 import UserDashboard from './Components/User';
+import AddProduct from './Components/User/Admin/add_products';
 
 const Routes = () => {
     return (

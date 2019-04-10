@@ -8,8 +8,8 @@ export default function(state={}, action) {
         case LOGIN_USER:
             return { ...state, loginSuccess: action.payload}
         case AUTH_USER:
-            // Get the data of the user from the server (Auth user)
             return { ...state, userData: action.payload}
+            // Get the data of the user from the server (Auth user)
         case LOGOUT_USER:
             return { ...state }
         default: 

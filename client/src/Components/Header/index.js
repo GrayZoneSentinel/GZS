@@ -28,12 +28,12 @@ class Header extends Component {
         user:[
             {
                 name: "Carrito",
-                linkTo: "user/cart",
+                linkTo: "/user/cart",
                 public: false
             },
             {
                 name: "Mi cuenta",
-                linkTo: "user/dashboard",
+                linkTo: "/user/dashboard",
                 public: false
             },
             {

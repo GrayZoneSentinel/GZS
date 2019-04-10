@@ -10,13 +10,13 @@ export default function(ComposedClass, reload, adminRoute = null) {
     class AuthenticationCheck extends Component {
 
         state = {
-            loading: false
+            loading: true
         }
 
         componentDidMount(){
             this.props.dispatch(auth()).then(response => {
                 let user = this.props.user.userData;
-                console.log(user);
+                // console.log(user);
                 if(!user.isAuth){
                     if(reload){
                         this.props.history.push('/register_login')
@@ -44,7 +44,7 @@ export default function(ComposedClass, reload, adminRoute = null) {
             }
             return(
                 <ComposedClass {...this.props} user={this.props.user}/>
-            )
+            );
         }
     }
     function mapStateToProps(state) {
@@ -52,5 +52,5 @@ export default function(ComposedClass, reload, adminRoute = null) {
             user: state.user
         }
     }
-    return connect(mapStateToProps)(AuthenticationCheck);
+    return connect(mapStateToProps)(AuthenticationCheck)
 }
