@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import UserLayout from '../../../hoc/userLayout';
 // Forms
 import Formfield from '../../Utils/Form/formfield';
-import { update, generateData, isFormValid } from '../../Utils/Form/formActions';
+import { update, generateData, isFormValid, populateOptionFields, resetFields } from '../../Utils/Form/formActions';
 // Redux connection
 import { connect } from 'react-redux';
 // Get elements
-import { getBrands, getWoods } from '../../../Actions/product_actions';
+import { getBrands, getWoods, addProduct, clearProduct } from '../../../Actions/product_actions';
 
 
 class AddProduct extends Component {
@@ -33,7 +33,7 @@ class AddProduct extends Component {
                 showLabel: true
             },
             description: {
-                element: 'input',
+                element: 'textarea',
                 value: '',
                 config: {
                     label: 'Descripción',
@@ -179,6 +179,85 @@ class AddProduct extends Component {
         }
     }
 
+
+    // Update fields in the selections
+    updateFields = (newFormData) => {
+        this.setState({
+            formdata: newFormData
+        })
+    }
+
+    // Update form function
+    updateForm = (element) => {
+        const newFormdata = update(element, this.state.formdata, 'products');
+        // Get the new state set and sent back from the formActions
+        this.setState({
+            formError: false,
+            formdata: newFormdata
+        })
+    }
+
+    // Reset field handler if the form is submitted as valid
+    resetFieldHandler = () => {
+        const newFormData = resetFields(this.state.formdata, 'products');
+        this.setState({ 
+            formdata: newFormData,
+            formSuccess: true 
+        });
+        setTimeout(() => {
+            this.setState({
+                formSuccess: false
+            }, () => {
+                this.props.dispatch(clearProduct());
+            })
+        }, 3000)
+    }
+
+    // Submit form function
+    submitForm = (event) => {
+        event.preventDefault();
+        // Check if the formdata is valid and has the appropriate key-value pairs required in state
+        let dataToSubmit = generateData(this.state.formdata, 'products');
+        let formIsValid = isFormValid(this.state.formdata, 'products');
+        
+        if(formIsValid) {
+            // console.log(dataToSubmit)
+            this.props.dispatch(addProduct(dataToSubmit)).then( () => {
+                if(this.props.products.addProduct.success) {
+                    this.resetFieldHandler();
+                } else {
+                    this.setState({ formError: true })
+                } 
+            })
+        } else {
+            this.setState({ formError: true })
+        }
+    }
+
+    // Get the brands and woods
+    componentDidMount(){
+        const formdata = this.state.formdata;
+        // Get brands
+        this.props.dispatch(getBrands())
+        .then(response =>{
+            // console.log(this.props.products.brands)
+            const newFormData = populateOptionFields(formdata, this.props.products.brands, 'brand');
+            // console.log(this.props.products.brands)
+            // console.log(newFormData)
+            this.updateFields(newFormData);
+        })
+        // Get woods
+        this.props.dispatch(getWoods())
+        .then(response =>{
+            // console.log(this.props.products.brands)
+            const newFormData = populateOptionFields(formdata, this.props.products.woods, 'wood');
+            // console.log(this.props.products.brands)
+            // console.log(newFormData)
+            this.updateFields(newFormData);
+        })
+    }
+
+
     render(){
         return(
             <UserLayout>
@@ -200,6 +279,7 @@ class AddProduct extends Component {
                             formdata = {this.state.formdata.price}
                             change = { (element) => this.updateForm(element) }
                         />
+                        <div className="form_devider"></div>
                         <Formfield
                             id = {'brand'}
                             formdata = {this.state.formdata.brand}
@@ -225,11 +305,33 @@ class AddProduct extends Component {
                             formdata = {this.state.formdata.frets}
                             change = { (element) => this.updateForm(element) }
                         />
+                        <div className="form_devider"></div>
                         <Formfield
                             id = {'publish'}
                             formdata = {this.state.formdata.publish}
                             change = { (element) => this.updateForm(element) }
                         />
+                        {
+                            this.state.formSuccess
+                                ?
+                                    <div className="form_success">
+                                        Producto incorporado con éxito.
+                                    </div>
+                                :
+                                    null
+                        }
+                        {
+                            this.state.formError
+                                ?
+                                    <div className="error_label">
+                                        Revisar los datos del producto.
+                                    </div>
+                                :
+                                    null
+                        }
+                        <button onClick={(event) => this.submitForm(event)}>
+                            Agregar producto
+                        </button>
                     </form>
                 </div>
             </UserLayout>

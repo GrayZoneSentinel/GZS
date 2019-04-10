@@ -5,11 +5,17 @@ import {
     GET_PRODUCTS_BY_ARRIVAL, 
     GET_BRANDS, 
     GET_WOODS,
-    GET_PRODUCTS_TO_SHOP
+    GET_PRODUCTS_TO_SHOP,
+    ADD_PRODUCT,
+    CLEAR_PRODUCT
 } from './types';
 
 import { PRODUCT_SERVER } from '../Components/Utils/misc';
 
+
+// ===================================
+//        PRODUCT FILTERS
+// ===================================
 export function getProductsBySell(){
     // ?sortBy=sold&order=desc&limit=100
     const request = axios
@@ -34,8 +40,9 @@ export function getProductsByArrival(){
     }
 }
 
+
 // ===================================
-//        Get products to Shop
+//        PRODUCTS TO SHOP
 // ===================================
 export function getProductsToShop(skip, limit, filters=[], previousState=[]){
     const data = {
@@ -64,8 +71,9 @@ export function getProductsToShop(skip, limit, filters=[], previousState=[]){
     }
 }
 
+
 // ===================================
-//        CATEGORIES  FILTERS
+//        CATEGORY  FILTERS
 // ===================================
 
 export function getBrands(){
@@ -87,5 +95,30 @@ export function getWoods(){
     return{
         type: GET_WOODS,
         payload: request
+    }
+}
+
+
+// ===================================
+//        PRODUCT ADDINGS
+// ===================================
+export function addProduct(dataToSubmit) {
+    const request = axios.post(`${PRODUCT_SERVER}/article`, dataToSubmit)
+    .then(response => response.data);
+
+    return {
+        // Create the type in Actions/types.js
+        type: ADD_PRODUCT,
+        payload: request
+    }
+}
+
+//  Clear State Once Added
+
+export function clearProduct() {
+    return {
+        // Create the type in Actions/types.js
+        type: CLEAR_PRODUCT,
+        payload: ''
     }
 }

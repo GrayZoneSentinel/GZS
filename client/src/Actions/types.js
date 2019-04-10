@@ -16,3 +16,8 @@ export const GET_WOODS = 'get_woods';
 //       PRODUCT SHOP
 // ==========================
 export const GET_PRODUCTS_TO_SHOP = 'get_products_to_shop';
+// ==========================
+//    PRODUCT MANAGEMENT
+// ==========================
+export const ADD_PRODUCT = 'add_product';
+export const CLEAR_PRODUCT = 'clear_product';

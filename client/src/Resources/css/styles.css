@@ -779,10 +779,11 @@ footer .business_nfo .nfo {
 .user_container .user_left_nav .links a {
     display: block;
     border-bottom: 1px solid #dddddd;
-    font-size: 20px;
+    font-size: 16px;
     font-weight: 300;
     padding: 10px 0px;
-    width: 280px;
+    width: 250px;
+    letter-spacing: 0.05em;
 }
 
 .user_container  .user_right {
