@@ -7,7 +7,8 @@ import { update, generateData, isFormValid, populateOptionFields, resetFields } 
 import { connect } from 'react-redux';
 // Get elements
 import { getBrands, getWoods, addProduct, clearProduct } from '../../../Actions/product_actions';
-
+// Images uploader
+import FileUploader from '../../Utils/Form/fileupload';
 
 class AddProduct extends Component {
 
@@ -175,6 +176,16 @@ class AddProduct extends Component {
                 touched: false,
                 validationMessage: '',
                 showLabel: true
+            },
+            images: {
+                value: [],
+                validation: {
+                    required: false
+                },
+                valid: true,
+                touched: false,
+                validationMessage: '',
+                showLabel: false
             }
         }
     }
@@ -257,6 +268,11 @@ class AddProduct extends Component {
         })
     }
 
+    // Images handler
+    imagesHandler = () => {
+
+    }
+
 
     render(){
         return(
@@ -264,6 +280,12 @@ class AddProduct extends Component {
                 <div>
                     <h1>Añadir producto</h1>
                     <form onSubmit = { (event) => this.submitForm(event) }>
+
+                        <FileUploader
+                            imagesHandler = {(images) => this.imagesHandler(images)}
+                            reset = {this.state.formSuccess}
+                        />
+
                         <Formfield
                             id = {'name'}
                             formdata = {this.state.formdata.name}
@@ -339,10 +361,6 @@ class AddProduct extends Component {
     } 
 }
 
-const mapStateToProps = (state) => {
-    return{
-        products: state.products
-    }
-}
+const mapStateToProps = (state) => { return { products: state.products } }
 
 export default connect(mapStateToProps)(AddProduct);
