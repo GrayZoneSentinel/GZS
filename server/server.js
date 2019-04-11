@@ -252,6 +252,7 @@ app.get('/api/users/logout', auth, (req, res) => {
 //============================
 //        CLOUDINARY
 //============================
+// Upload images
 app.post('/api/users/uploadimage', auth, admin, formidable(), (req, res) => {
     cloudinary.uploader.upload(req.files.file.path, (result) => {
         console.log(result);
@@ -264,6 +265,15 @@ app.post('/api/users/uploadimage', auth, admin, formidable(), (req, res) => {
         resource_type: 'auto'
     })
 })
+// Remove image
+app.get('/api/users/removeimage', auth, admin, (req, res) => {
+    let image_id = req.query.public_id;
+    cloudinary.uploader.destroy(image_id, (error, result) => {
+        if(error) return res.json({ success: false, error });
+        res.statusç(200).send('Removal done.');
+    })
+})
+
 
 //============================
 //       PORT CONFIG
