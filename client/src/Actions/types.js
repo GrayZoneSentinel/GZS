@@ -10,7 +10,6 @@ export const LOGOUT_USER = 'logout_user';
 // ==========================
 export const GET_PRODUCTS_BY_SELL = 'get_products_by_sell';
 export const GET_PRODUCTS_BY_ARRIVAL = 'get_products_by_arrival';
-export const GET_WOODS = 'get_woods';
 // ==========================
 //       PRODUCT SHOP
 // ==========================
@@ -25,3 +24,8 @@ export const CLEAR_PRODUCT = 'clear_product';
 // ==========================
 export const GET_BRANDS = 'get_brands';
 export const ADD_BRAND = 'add_brand';
+// ==========================
+//    WOOD MANAGEMENT
+// ==========================
+export const GET_WOODS = 'get_woods';
+export const ADD_WOOD = 'add_wood';

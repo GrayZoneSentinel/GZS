@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 // Forms
 import Formfield from '../../Utils/Form/formfield';
-import { update, generateData, isFormValid, populateOptionFields, resetFields } from '../../Utils/Form/formActions';
+import { update, generateData, isFormValid, resetFields } from '../../Utils/Form/formActions';
 // Redux connection
 import { connect } from 'react-redux';
 // Get elements
-import { getBrands } from '../../../Actions/product_actions';
+import { getBrands, addBrand } from '../../../Actions/product_actions';
 
 class ManageBands extends Component {
 
@@ -31,7 +31,7 @@ class ManageBands extends Component {
                 // showLabel: true
             }
         }
-    }    
+    }
 
     // Get the brands
     showCategoryItems = () => (
@@ -60,25 +60,43 @@ class ManageBands extends Component {
         })
     }
 
+    // Reset field handler if the form is submitted as valid
+    resetFieldHandler = () => {
+        const newFormData = resetFields(this.state.formdata, 'brands');
+        this.setState({ 
+            formdata: newFormData,
+            formSuccess: true 
+        });
+    }
+
     // Submit form function
     submitForm = (event) => {
         event.preventDefault();
         // Check if the formdata is valid and has the appropriate key-value pairs required in state
         let dataToSubmit = generateData(this.state.formdata, 'brands');
         let formIsValid = isFormValid(this.state.formdata, 'brands');
+        let existingBrands = this.props.products.brands;
         
         if(formIsValid) {
-            console.log(dataToSubmit)
-            
+            // console.log(dataToSubmit);
+            this.props.dispatch(addBrand(dataToSubmit, existingBrands))
+            .then(response => {
+                if(response.payload.success) {
+                    this.resetFieldHandler();
+                } else {
+                    this.setState({ formError: true })        
+                }
+            })
         } else {
             this.setState({ formError: true })
         }
     }
+    
 
     render(){
         return(
             <div className="admin_category_wrapper">
-                <h1>Brands management</h1>
+                <h1 style={{textTransform: 'uppercase', letterSpacing: '.3rem', marginTop: '40px'}}>Brands management</h1>
                 <div className="admin_two_column">
                     <div className="left">
                         <div className="brands_container">
