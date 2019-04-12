@@ -4,8 +4,10 @@ import PageTop from '../Utils/page_top';
 // REDUX CONNECTION
 import { connect } from 'react-redux';
 import { getProductDetail, clearProductDetail } from '../../Actions/product_actions';
-// Product Info component
+// Product Info & Images component
 import ProdNfo from './prodNfo';
+import ProdImg from './prodImg';
+
 class ProductPage extends Component {
 
 
@@ -29,7 +31,11 @@ class ProductPage extends Component {
                             ?
                                 <div className="product_detail_wrapper">
                                     <div className="left">
-                                        Images
+                                        <div style={{width:'500px'}}>
+                                            <ProdImg
+                                                detail = {this.props.products.prodDetail}
+                                            />
+                                        </div>
                                     </div>
                                     <div className="right">
                                         <ProdNfo
