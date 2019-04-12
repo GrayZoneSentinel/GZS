@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
-
+// Import custom button
 import MyButton from '../Utils/button';
+// Import redux connection
+import { connect } from 'react-redux';
+import { addToCart } from '../../Actions/user_actions';
 
 class Card extends Component {
 
@@ -58,7 +61,12 @@ class Card extends Component {
                             <MyButton
                                 type = 'bag_link'
                                 runAction = {() => {
-                                    console.log('Added to cart!')
+                                    // console.log('Added to cart!');
+                                    props.user.userData.isAuth
+                                        ?
+                                            this.props.dispatch(addToCart(props._id))
+                                        :
+                                            console.log('Por favor, debes registrarte o acceder como usuario registrado.')
                                 }}
                             />
                         </div>
@@ -69,4 +77,10 @@ class Card extends Component {
     } 
 }
 
-export default Card;
+const mapStateToProps = (state) => {
+    return{
+        user: state.user
+    }
+}
+
+export default connect(mapStateToProps)(Card);

@@ -1,5 +1,11 @@
 // Login users
-import { LOGIN_USER, REGISTER_USER, AUTH_USER, LOGOUT_USER } from '../Actions/types';
+import { 
+    LOGIN_USER,
+    REGISTER_USER,
+    AUTH_USER,
+    LOGOUT_USER,
+    ADD_TO_CART_USER
+} from '../Actions/types';
 
 export default function(state={}, action) {
     switch(action.type){
@@ -12,6 +18,11 @@ export default function(state={}, action) {
             // Get the data of the user from the server (Auth user)
         case LOGOUT_USER:
             return { ...state }
+        case ADD_TO_CART_USER:
+            return { ...state, userData: {
+                ...state.userData,
+                cart: action.payload
+            } }
         default: 
             return state;
     }
