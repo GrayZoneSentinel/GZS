@@ -32,11 +32,34 @@ class Register extends Component {
 
                 this.props.dispatch(getCartItems(cartItems, user.userData.cart))
                 .then(() => {
-
+                    // The logic to get the total ammount of the products comprised in the cart
+                    if(this.props.user.cartDetail.length > 0){
+                        this.calculateTotal(this.props.user.cartDetail);
+                    }
                 });
             }
         }
     }
+
+    // Calculate the total ammount of the products in cart
+    calculateTotal = (cartDetail) => {
+        let total = 0;
+        cartDetail.forEach(item => {
+            total += parseInt(item.price, 10) * item.quantity
+        });
+        this.setState({
+            showTotal: true,
+            total
+        });
+    }
+
+    // Show no item message
+    showNoItemMessage = () => (
+        <div className="cart_no_items">
+            <FontAwesomeIcon icon={faFrown}/>
+            <div>La cesta de compra está vacía</div>
+        </div>
+    )
 
     // Remove item from cart
     removeFromCart = () => {
@@ -54,7 +77,36 @@ class Register extends Component {
                             type = "cart"
                             removeItem = {(id) => this.removeFromCart(id)}
                         />
+                        {
+                            this.state.showTotal
+                                ?
+                                    <div>
+                                        <div className="user_cart_sum">
+                                            <div>
+                                                Importe total: {this.state.total}.-Euros
+                                            </div>
+                                        </div>
+                                    </div>
+                                :
+                                    this.state.showSucces
+                                        ?
+                                            <div className="cart_success">
+                                                <FontAwesomeIcon icon={faSmile}/>
+                                                <div>Gracias, tu compra se ha realizado con éxito!</div>
+                                            </div>
+                                        :
+                                            this.showNoItemMessage()
+                        }
                     </div>
+                    {
+                        this.state.showTotal
+                            ?
+                                <div className="paypal_button_container">
+                                    Paypal button
+                                </div>
+                            :
+                                null
+                    }
                 </div>
             </UserLayout>
         )
