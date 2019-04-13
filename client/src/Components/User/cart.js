@@ -5,7 +5,7 @@ import UserLayout from '../../hoc/userLayout';
 import UserProductBlock from '../Utils/User/product_block';
 // Redux
 import { connect } from 'react-redux';
-import { getCartItems } from '../../Actions/user_actions';
+import { getCartItems, removeCartItem } from '../../Actions/user_actions';
 // FontAwesome
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import faFrown from '@fortawesome/fontawesome-free-solid/faFrown';
@@ -62,8 +62,17 @@ class Register extends Component {
     )
 
     // Remove item from cart
-    removeFromCart = () => {
-
+    removeFromCart = (id) => {
+        this.props.dispatch(removeCartItem(id))
+        .then(() => {
+            if(this.props.user.cartDetail.length <= 0) {
+                this.setState({
+                    showTotal: false
+                })
+            } else {
+                this.calculateTotal(this.props.user.cartDetail)
+            }
+        })
     }
 
     render(){
