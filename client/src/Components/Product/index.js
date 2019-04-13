@@ -7,7 +7,10 @@ import { getProductDetail, clearProductDetail } from '../../Actions/product_acti
 // Product Info & Images component
 import ProdNfo from './prodNfo';
 import ProdImg from './prodImg';
+// Add to cart
+import { addToCart } from '../../Actions/user_actions';
 
+ 
 class ProductPage extends Component {
 
     componentDidMount(){
@@ -24,6 +27,11 @@ class ProductPage extends Component {
 
     componentWillUnmount() {
         this.props.dispatch(clearProductDetail());
+    }
+
+    addToCartHandler(id) {
+        // console.log(id)
+        this.props.dispatch(addToCart(id));
     }
 
     render(){
@@ -44,8 +52,8 @@ class ProductPage extends Component {
                                     </div>
                                     <div className="right">
                                         <ProdNfo
-                                            detail = {this.props.products.prodDetail}
                                             addToCart = {(id) => this.addToCartHandler(id)}
+                                            detail = {this.props.products.prodDetail}
                                         />
                                     </div>
                                 </div>
