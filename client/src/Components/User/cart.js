@@ -10,6 +10,10 @@ import { getCartItems, removeCartItem } from '../../Actions/user_actions';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import faFrown from '@fortawesome/fontawesome-free-solid/faFrown';
 import faSmile from '@fortawesome/fontawesome-free-solid/faSmile';
+// PAYPAL
+// Client ID Paypal
+// AWJ_hHxjQKlarmiSzicMyqyIdJqvhdHxC1HDhCrvhaM5gfQx3hBbp8FzaHBGMILvgKCMWG7hL_YmLbsK
+import Paypal from '../Utils/paypal';
 
 class Register extends Component {
 
@@ -75,6 +79,22 @@ class Register extends Component {
         })
     }
 
+    // =============================
+    // Paypal transactions functions
+    // =============================
+    //  Error
+    transactionError = (data) => {
+
+    }
+    //  Cancelled
+    transactionCancelled = (data) => {
+        
+    }
+    //  Success
+    onSuccess = (data) => {
+        
+    }
+
     render(){
         return(
             <UserLayout>
@@ -111,7 +131,12 @@ class Register extends Component {
                         this.state.showTotal
                             ?
                                 <div className="paypal_button_container">
-                                    Paypal button
+                                    <Paypal
+                                        toPay = {this.state.total}
+                                        transactionError = {(data) => this.transactionError(data)}
+                                        transactionCanceled = {(data) => this.transactionCanceled(data)}
+                                        onSuccess = {(data) => this.transactionSuccess(data)}
+                                    />
                                 </div>
                             :
                                 null
