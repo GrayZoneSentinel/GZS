@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
+// Layout
 import UserLayout from '../../hoc/userLayout';
+// Product block
+import UserProductBlock from '../Utils/User/product_block';
 // Redux
 import { connect } from 'react-redux';
 import { getCartItems } from '../../Actions/user_actions';
@@ -18,16 +21,16 @@ class Register extends Component {
     }
 
     componentDidMount() {
-        let cartItem = [];
+        let cartItems = [];
         let user = this.props.user;
 
         if(user.userData.cart){
             if(user.userData.cart.length > 0 ){
                 user.userData.cart.forEach( item => {
-                    cartItem.push(item.id)
+                    cartItems.push(item.id)
                 });
 
-                this.props.dispatch(getCartItems(cartItem, user.userData.cart))
+                this.props.dispatch(getCartItems(cartItems, user.userData.cart))
                 .then(() => {
 
                 });
@@ -35,11 +38,23 @@ class Register extends Component {
         }
     }
 
+    // Remove item from cart
+    removeFromCart = () => {
+
+    }
+
     render(){
         return(
             <UserLayout>
                 <div>
-                    CART   
+                    <h1>Cesta de la compra</h1>
+                    <div className="user_cart">
+                        <UserProductBlock
+                            products = {this.props.user}
+                            type = "cart"
+                            removeItem = {(id) => this.removeFromCart(id)}
+                        />
+                    </div>
                 </div>
             </UserLayout>
         )
