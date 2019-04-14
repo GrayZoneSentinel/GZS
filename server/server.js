@@ -25,7 +25,6 @@ cloudinary.config({
     api_secret: process.env.CLOUD_API_SECRET
 })
 
-
 //============================
 //        MODELS
 //============================
@@ -33,14 +32,13 @@ const { User } = require('./models/user');
 const { Brand } = require('./models/brand');
 const { Wood } = require('./models/wood');
 const { Product } = require('./models/product');
-
+const { Payment } = require('./models/payment');
 
 //============================
 //       MIDDLEWARES
 //============================
 const { auth } = require('./middleware/auth');
 const { admin } = require('./middleware/admin');
-
 
 //============================
 //          SHOP
@@ -84,7 +82,6 @@ app.post('/api/product/shop', (req, res) => {
         })
     })
 });
-
 
 //============================
 //        PRODUCTS
@@ -140,7 +137,6 @@ app.get('/api/product/articles', (req, res) => {
 
 });
 
-
 //============================
 //        WOODS
 //============================
@@ -163,7 +159,6 @@ app.get('/api/product/woods', (req, res) => {
     });
 });
 
-
 //============================
 //        BRANDS
 //============================
@@ -185,7 +180,6 @@ app.get('/api/product/brands', (req, res) => {
         res.status(200).send(brands);
     });
 });
-
 
 //============================
 //        USERS
@@ -339,6 +333,32 @@ app.get('/api/users/removeFromCart', auth, (req, res) => {
             })
         }
     );
+})
+
+app.post('/api/users/successBuy', auth, (req, res) => {
+    let history = [];
+    let transactionData = {};
+    // User history
+    req.body.cartDetail.forEach((item) => {
+        history.push({
+            dateOfPurchase: Date.now(),
+            name: item.name,
+            brand: item.brand.name,
+            id: item._id,
+            price: item.price,
+            quantity: item.quantity,
+            paymentId: req.body.paymentData.paymentID
+        })
+    })
+    // Payments dash
+    transactionData.user = {
+        id: req.user._id,
+        name: req.user.name,
+        lastname: req.user.lastname,
+        email: req.user.email
+    }
+    transactionData.data = req.body.paymentData;
+    transactionData.product = history;
 })
 
 //============================
