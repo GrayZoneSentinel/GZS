@@ -5,7 +5,7 @@ import UserLayout from '../../hoc/userLayout';
 import UserProductBlock from '../Utils/User/product_block';
 // Redux
 import { connect } from 'react-redux';
-import { getCartItems, removeCartItem } from '../../Actions/user_actions';
+import { getCartItems, removeCartItem, onSuccessBuy } from '../../Actions/user_actions';
 // FontAwesome
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import faFrown from '@fortawesome/fontawesome-free-solid/faFrown';
@@ -92,9 +92,18 @@ class Register extends Component {
     }
     //  Success
     transactionSuccess = (data) => {
-        this.setState({
-            showTotal: false,
-            showSuccess: true
+        // Action dispatching
+        this.props.dispatch(onSuccessBuy({
+            cartDetail: this.props.user.cartDetail,
+            paymentData: data
+        }))
+        .then( () => {
+            if(this.props.user.successBuy) {
+                this.setState({
+                    showTotal: false,
+                    showSuccess: true
+                })
+            }
         })
     }
 

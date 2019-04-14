@@ -379,7 +379,7 @@ app.post('/api/users/successBuy', auth, (req, res) => {
                         quantity: item.quantity
                     })
                 });
-                async.eachOfSeries( products, (item, callback) => {
+                async.eachSeries( products, (item, callback) => {
                     // Update
                     Product.update(
                         { _id: item.id },
