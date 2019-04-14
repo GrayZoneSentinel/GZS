@@ -21,7 +21,7 @@ class Register extends Component {
         loading: true,
         total: 0,
         showTotal: false,
-        showSucces: false
+        showSuccess: false
     }
 
     componentDidMount() {
@@ -84,15 +84,18 @@ class Register extends Component {
     // =============================
     //  Error
     transactionError = (data) => {
-
+        console.log('Paypal error')
     }
     //  Cancelled
-    transactionCancelled = (data) => {
-        
+    transactionCanceled = (data) => {
+        console.log('Transaction canceled')
     }
     //  Success
-    onSuccess = (data) => {
-        
+    transactionSuccess = (data) => {
+        this.setState({
+            showTotal: false,
+            showSuccess: true
+        })
     }
 
     render(){
@@ -117,11 +120,12 @@ class Register extends Component {
                                         </div>
                                     </div>
                                 :
-                                    this.state.showSucces
+                                    this.state.showSuccess
                                         ?
                                             <div className="cart_success">
                                                 <FontAwesomeIcon icon={faSmile}/>
-                                                <div>Gracias, tu compra se ha realizado con éxito!</div>
+                                                <div>Estimado cliente, muchas gracias!</div>
+                                                <div>Tu compra ha sido procesada con éxito.</div>
                                             </div>
                                         :
                                             this.showNoItemMessage()

@@ -7,7 +7,25 @@ class Paypal extends Component {
     render(){
 
         const onSuccess = (payment) => {
-            console.log(JSON.stringify(payment))
+            console.log(JSON.stringify(payment));
+            this.props.onSuccess(payment);
+            //{
+                //"paid":true,
+                //"cancelled":false,
+                //"payerID":"GBXHK9J9UHBSC",
+                //"paymentID":"PAYID-LSZEBOY91F89825UK4258740",
+                //"paymentToken":"EC-86053490760415353",
+                //"returnUrl":"https://www.paypal.com/checkoutnow/error?paymentId=PAYID-LSZEBOY91F89825UK4258740&token=EC-86053490760415353&PayerID=GBXHK9J9UHBSC",
+                //"address":{
+                    //"recipient_name":"Ernesto García",
+                    //"line1":"Av Posse, 11",
+                    //"city":"Sada",
+                    //"state":"A CORUÑA",
+                    //"postal_code":"15160",
+                    //"country_code":"ES"
+                //},
+                //"email":"201410929-buyer@alu.comillas.edu"
+            //}
         }
 
         const onCancel = (data) => {
