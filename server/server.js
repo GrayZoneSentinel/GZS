@@ -7,6 +7,8 @@ const cloudinary = require('cloudinary');
 
 const app = express();
 const mongoose = require('mongoose');
+// Update cart: success buy route
+const async = require('async');
 require('dotenv').config();
 
 mongoose.Promise = global.Promise;
@@ -359,6 +361,43 @@ app.post('/api/users/successBuy', auth, (req, res) => {
     }
     transactionData.data = req.body.paymentData;
     transactionData.product = history;
+
+    User.findOneAndUpdate(
+        { _id: req.user._id },
+        { $push:{history: history}, $set:{cart: []} },
+        { new: true },
+        ( err, user ) => {
+            if(err) return res.json( {success: false, err} );
+            const payment = new Payment(transactionData);
+            payment.save( (err, doc) => {
+                if(err) return res.json( {success: false, err} );
+                // Async for products
+                let products = [];
+                doc.product.forEach(item => {
+                    products.push({
+                        id: item.id,
+                        quantity: item.quantity
+                    })
+                });
+                async.eachOfSeries( products, (item, callback) => {
+                    // Update
+                    Product.update(
+                        { _id: item.id },
+                        { $inc: {'sold': item.quantity} },
+                        { new: false },
+                        callback
+                    )
+                }, (err) => {
+                    if(err) return res.json( {success: false, err} );
+                    res.status(200).json({
+                        success: true,
+                        cart: user.cart,
+                        cartDetail: []
+                    })
+                })
+            });
+        }
+    )
 })
 
 //============================
