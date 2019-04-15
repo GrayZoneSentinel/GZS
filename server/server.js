@@ -30,6 +30,7 @@ cloudinary.config({
 //============================
 //        MODELS
 //============================
+const { Site } = require('./models/site');
 const { User } = require('./models/user');
 const { Brand } = require('./models/brand');
 const { Wood } = require('./models/wood');
@@ -41,6 +42,17 @@ const { Payment } = require('./models/payment');
 //============================
 const { auth } = require('./middleware/auth');
 const { admin } = require('./middleware/admin');
+
+//============================
+//          SITE
+//============================
+app.get('/api/site/site_data', (req, res) => {
+    Site.find({}, (err, site) => {
+        if(err) return res.status(400).send(err);
+        // return res.status(200).send(site[0].siteInfo)
+        res.status(200).send(site[0].siteInfo)
+    });
+});
 
 //============================
 //          SHOP

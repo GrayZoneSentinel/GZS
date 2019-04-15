@@ -1,8 +1,7 @@
 import axios from 'axios';
 
 import { 
-    // GET_SITE_NFO 
-    
+    GET_SITE_DATA
 } from './types';
 
 import { SITE_SERVER } from '../Components/Utils/misc';
@@ -11,13 +10,12 @@ import { SITE_SERVER } from '../Components/Utils/misc';
 // ===================================
 //          SITE INFORMATION
 // ===================================
-// export function getSiteNfo(){
-//     const request = axios
-//     .get(`${SITE_SERVER}/site`)
-//     .then(response => response.data);
+export function getSiteData(){
+    const request = axios.get(`${SITE_SERVER}/site_data`)
+                    .then(response => response.data);
 
-//     return{
-//         type: GET_SITE_NFO,
-//         payload: request
-//     }
-// }
+    return{
+        type: GET_SITE_DATA,
+        payload: request
+    }
+}

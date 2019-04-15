@@ -1,4 +1,8 @@
 // ==========================
+//        SITE DATA
+// ==========================
+export const GET_SITE_DATA = 'get_site_data';
+// ==========================
 //        USER TYPES
 // ==========================
 export const LOGIN_USER = 'login_user';
