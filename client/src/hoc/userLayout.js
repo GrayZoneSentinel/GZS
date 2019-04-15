@@ -21,7 +21,7 @@ const links = [
 // Create the Admin links
 const adminLinks = [
     {
-        name: 'Site info',
+        name: 'Información Siteweb',
         linkTo: '/admin/site_info'
     },
     {
