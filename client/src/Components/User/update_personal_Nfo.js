@@ -4,6 +4,7 @@ import Formfield from '../Utils/Form/formfield';
 import { update, generateData, isFormValid, populateFields } from '../Utils/Form/formActions';
 // Redux
 import { connect } from 'react-redux';
+import { updateUserData, clearUpdateUser } from '../../Actions/user_actions';
 
 class UpdatePersonalInfo extends Component {
 
@@ -60,6 +61,16 @@ class UpdatePersonalInfo extends Component {
         }
     }
 
+
+    // Populate fields with existing personal data
+    componentDidMount() {
+        const newFromData = populateFields(this.state.formdata, this.props.user.userData);
+
+        this.setState({
+            formdata: newFromData
+        })
+    } 
+
     updateForm = (element) => {
         const newFormdata = update(element, this.state.formdata, 'update_user');
         // Get the new state set and sent back from the formActions
@@ -76,21 +87,25 @@ class UpdatePersonalInfo extends Component {
         let formIsValid = isFormValid(this.state.formdata, 'update_user');
         
         if(formIsValid) {
-            console.log(dataToSubmit);
+            // console.log(dataToSubmit);
+            this.props.dispatch(updateUserData(dataToSubmit)).then(()=>{
+                if(this.props.user.updateUser.success){
+                    this.setState({
+                        formSuccess: true
+                    }, ()=>{
+                        setTimeout(()=>{
+                            this.props.dispatch(clearUpdateUser());
+                            this.setState({
+                                formSuccess: false
+                            })
+                        },2000)
+                    })
+                }
+            })
         } else {
             this.setState({ formError: true })
         }
     }
-
-    // Populate fields with existing personal data
-    componentDidMount() {
-        const newFromData = populateFields(this.state.formdata, this.props.user.userData);
-
-        this.setState({
-            formdata: newFromData
-        })
-    } 
-
 
     render(){
         return(
