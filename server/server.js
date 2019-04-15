@@ -53,6 +53,22 @@ app.get('/api/site/site_data', (req, res) => {
         res.status(200).send(site[0].siteInfo)
     });
 });
+app.post('/api/site/site_data', auth, admin, (req, res) => {
+    Site.findOneAndUpdate(
+        { name: 'Site'},
+        {
+            "$set": {siteInfo: req.body}
+        },
+        { new: true},
+        (err, doc) => {
+            if(err) return res.json({success: false, err});
+            return res.status(200).send({
+                success: true,
+                siteInfo: doc.siteInfo
+            })
+        }
+    );
+});
 
 //============================
 //          SHOP

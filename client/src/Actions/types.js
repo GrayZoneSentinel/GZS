@@ -2,6 +2,7 @@
 //        SITE DATA
 // ==========================
 export const GET_SITE_DATA = 'get_site_data';
+export const UPDATE_SITE_DATA = 'update_site_data';
 // ==========================
 //        USER TYPES
 // ==========================
