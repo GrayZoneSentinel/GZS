@@ -70,6 +70,16 @@ export const populateOptionFields = (formdata, arrayData = [], field) => {
     return newFormdata;
 }
 
+export const populateFields = (formdata, fields) => { 
+    for(let key in formdata) {
+        formdata[key].value = fields[key];
+        formdata[key].valid = true;
+        formdata[key].touched = true;
+        formdata[key].validationMessage = ''
+    }
+    return formdata;
+}
+
 export const resetFields = ( formdata, formName ) => {
     const newFormdata = {...formdata}
     // Images uploader code block

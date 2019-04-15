@@ -10,7 +10,7 @@ const links = [
     },
     {
         name: 'Info usuario',
-        linkTo: '/user/user_profile'
+        linkTo: '/user/update_profile'
     },
     {
         name: 'Carrito',
